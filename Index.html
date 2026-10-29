@@ -6,6 +6,7 @@
   <title>Informe de Resultados – Batería de Riesgo Psicosocial</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -271,6 +272,16 @@
     .header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
     .application-countdown{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;font-size:.78rem;font-weight:800;line-height:1.2;}
     .application-countdown i{color:#64748b;}
+    .animated-clock{display:inline-flex;width:22px;height:22px;flex:0 0 22px;align-items:center;justify-content:center;color:#64748b;}
+    .animated-clock svg{width:22px;height:22px;overflow:visible;}
+    .clock-minute-hand,.clock-second-hand{transform-box:view-box;transform-origin:12px 12px;}
+    .clock-minute-hand{animation:clock-turn 12s linear infinite;}
+    .clock-second-hand{animation:clock-turn 3s linear infinite;}
+    @keyframes clock-turn{to{transform:rotate(360deg);}}
+    .header-actions{gap:6px;flex-wrap:nowrap;}
+    .application-countdown{gap:5px;padding:5px 8px;font-size:.68rem;white-space:nowrap;}
+    .animated-clock{width:16px;height:16px;flex-basis:16px;}
+    .animated-clock svg{width:16px;height:16px;}
     .chart-card{position:relative;}
     .chart-card h3{padding-right:98px;}
     .chart-expand-btn{position:absolute;right:14px;top:14px;z-index:2;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:84px;height:32px;padding:0 10px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--text);font-size:.74rem;font-weight:800;cursor:pointer;box-shadow:0 1px 4px rgba(15,23,42,.08);}
@@ -299,7 +310,7 @@
       body.gantt-printing #tab-8 .gantt-table textarea,body.gantt-printing #tab-8 .gantt-table select{border:0!important;background:transparent!important;padding:0!important;font-size:8pt!important;resize:none!important;}
     }
     .btn-logout-icon,.btn-header-icon{width:42px;height:42px;padding:0!important;display:inline-flex;align-items:center;justify-content:center;flex:0 0 42px;border-radius:10px;}.btn-header-icon{font-size:1rem;}
-    .results-pair-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch;margin:18px 0 24px;}.results-pair-grid>.chart-card,.results-pair-grid>.summary-table-container{min-width:0;margin:0!important;height:100%;}.results-pair-grid:has(.chart-card[style*="display: none"])>.summary-table-container{grid-column:1/-1;}.results-pair-grid .chart-card canvas{height:clamp(260px,28vw,360px)!important;}.chart-section{margin:22px 0 28px;}.chart-section-title{font-size:1.12rem;color:var(--primary);padding:0 0 10px;border-bottom:2px solid #e2e8f0;margin:0 0 14px;}.dimensions-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.dimensions-grid .chart-card canvas{height:clamp(320px,32vw,420px)!important;}.company-recommendation{border:1px solid #dbe4ee;border-left:5px solid var(--primary);background:linear-gradient(145deg,#fff 0%,#f8fafc 100%);box-shadow:0 8px 24px rgba(15,23,42,.07);}.company-recommendation h2{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid #e2e8f0;}.instagram-link{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;width:34px;height:34px;margin:0 5px;border:1px solid #e9d5ff;border-radius:50%;color:#9d174d;text-decoration:none;background:#fff;font-size:1.05rem;box-shadow:0 2px 6px rgba(15,23,42,.1);}.instagram-link:hover{background:#fff1f2;border-color:#fbcfe8;transform:translateY(-1px);}.footer-email{color:var(--primary);text-decoration:none;font-weight:700;}.footer-email:hover{text-decoration:underline;}
+    .results-pair-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch;margin:18px 0 24px;}.results-pair-grid>.chart-card,.results-pair-grid>.summary-table-container{min-width:0;margin:0!important;height:100%;}.results-pair-grid:has(.chart-card[style*="display: none"])>.summary-table-container{grid-column:1/-1;}.results-pair-grid .chart-card canvas{height:clamp(260px,28vw,360px)!important;}.chart-section{margin:22px 0 28px;}.chart-section-title{font-size:1.12rem;color:var(--primary);padding:0 0 10px;border-bottom:2px solid #e2e8f0;margin:0 0 14px;}.dimensions-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.dimensions-grid .chart-card canvas{height:clamp(320px,32vw,420px)!important;}.company-recommendation{border:1px solid #dbe4ee;border-left:5px solid var(--primary);background:linear-gradient(145deg,#fff 0%,#f8fafc 100%);box-shadow:0 8px 24px rgba(15,23,42,.07);}.company-recommendation h2{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid #e2e8f0;}.instagram-link{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;width:34px;height:34px;margin:0 5px;border:1px solid #e9d5ff;border-radius:50%;color:#9d174d;text-decoration:none;background:#fff;font-size:1.05rem;box-shadow:0 2px 6px rgba(15,23,42,.1);}.instagram-link:hover{background:#fff1f2;border-color:#fbcfe8;transform:translateY(-1px);}.tiktok-link{color:#111827;border-color:#cbd5e1;}.tiktok-link:hover{background:#f1f5f9;border-color:#94a3b8;}.footer-email{color:var(--primary);text-decoration:none;font-weight:700;}.footer-email:hover{text-decoration:underline;}
     @media(max-width:900px){.results-pair-grid,.dimensions-grid{grid-template-columns:1fr;}.results-pair-grid .chart-card canvas{height:300px!important;}}
     #tab-1 .two-column-charts,#tab-2 .two-column-charts{grid-template-columns:repeat(2,minmax(0,1fr));}
     @media(max-width:700px){#tab-1 .two-column-charts,#tab-2 .two-column-charts{grid-template-columns:1fr;}}
@@ -316,12 +327,12 @@
     .chart-expand-btn{min-width:88px;height:36px;}
     .chart-modal-canvas-wrap canvas{image-rendering:auto;}
     @media print{@page{size:13in 8.5in;margin:.35in;}body.gantt-printing #tab-8 .gantt-table{table-layout:fixed;min-width:0!important;width:100%!important;}body.gantt-printing #tab-8 .gantt-table thead{display:table-header-group;}body.gantt-printing #tab-8 .gantt-table tr{break-inside:avoid;page-break-inside:avoid;}body.gantt-printing #tab-8 .gantt-table .actions-col,body.gantt-printing #tab-8 .gantt-table td:nth-child(5){display:none!important;}body.gantt-printing #tab-8 .gantt-table .act-col{width:22%;}body.gantt-printing #tab-8 .gantt-table .area-col{width:12%;}body.gantt-printing #tab-8 .gantt-table .date-col{width:7%;}body.gantt-printing #tab-8 .gantt-table .gantt-month-col{width:4%;}body.gantt-printing #tab-8 .gantt-table .gantt-month-cell{padding:2px!important;}body.gantt-printing #tab-8 .gantt-table th,body.gantt-printing #tab-8 .gantt-table td{padding:3px 4px;font-size:7pt!important;}body.gantt-printing #tab-8 .gantt-table textarea,body.gantt-printing #tab-8 .gantt-table input,body.gantt-printing #tab-8 .gantt-table .gantt-activity-edit{width:100%!important;min-width:0!important;min-height:0!important;height:auto!important;white-space:normal!important;overflow:visible!important;font-size:6.5pt!important;line-height:1.15!important;padding:0!important;}}
-    .gantt-table{min-width:1660px;table-layout:fixed;}
+    .gantt-table{min-width:1780px;table-layout:fixed;} .gantt-table thead th{text-align:center!important;vertical-align:middle;}
     .gantt-table .act-col{width:380px;}
     .gantt-table .area-col{width:330px;}
     .gantt-table .date-col{width:160px;}
     .gantt-table .actions-col{width:54px;}
-    .gantt-table .gantt-month-col{width:48px;}
+    .gantt-table .gantt-month-col{width:58px;min-width:58px;padding:5px 2px;white-space:normal;line-height:1.1;border-left:1px solid rgba(255,255,255,.18);}.gantt-table .gantt-month-col span{display:block;text-align:center;white-space:nowrap;}.gantt-table .gantt-month-col .gantt-month-year{font-size:.68rem;font-weight:600;opacity:.9;}.gantt-table td.gantt-month-cell{border-left:1px solid #e2e8f0;}
     .gantt-table input[type=date]{display:block;width:100%;min-width:0;max-width:100%;padding:5px 3px;font-size:.76rem;}
     .gantt-table .gantt-activity-edit{display:block;width:100%;min-width:0;max-width:100%;min-height:88px;height:auto;resize:vertical;padding:8px;border:1px solid var(--border);border-radius:6px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;line-height:1.35;}
     .gantt-table .gantt-area{min-width:0;}
@@ -375,7 +386,7 @@
       <i class="fa-solid fa-calendar-check"></i>
       Aplicación: <strong>Octubre de 2026</strong>
     </div>
-<div class="application-countdown" id="application-countdown" aria-live="polite"><i class="fa-solid fa-bell"></i><span id="application-countdown-text">Calculando próxima aplicación…</span></div>
+<div class="application-countdown" id="application-countdown" aria-live="polite"><span class="animated-clock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.25" stroke="currentColor" stroke-width="1.8"/><path d="M12 5.5v1.2M18.5 12h-1.2M12 17.3v1.2M6.7 12H5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path class="clock-minute-hand" d="M12 12V7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="clock-second-hand" d="M12 12V5.7" stroke="#1a6b35" stroke-width="1.2" stroke-linecap="round"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg></span><span id="application-countdown-text">Calculando próxima aplicación…</span></div>
 <a href="https://drive.google.com/file/d/197it5mSwo7Tsqq5p5pOtntTEOw2Bgu93/view?usp=sharing" class="btn btn-pdf btn-header-icon" id="pdf-download-btn" target="_blank" rel="noopener noreferrer" aria-label="Descargar PDF" title="Descargar PDF"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
     <button class="btn btn-danger btn-logout-icon" onclick="handleLogout()" aria-label="Salir" title="Salir"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i></button>
   </div>
@@ -518,7 +529,7 @@
       </div>
 
       <footer class="dashboard-footer">
-        <p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p>
+        <p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> <a class="instagram-link tiktok-link" href="https://www.tiktok.com/@entrelazapsicosocial" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en TikTok" title="TikTok de Entrelaza"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p>
       </footer>
     </div>
 
@@ -556,7 +567,7 @@
         </div>
       </div>
 
-      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
+      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> <a class="instagram-link tiktok-link" href="https://www.tiktok.com/@entrelazapsicosocial" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en TikTok" title="TikTok de Entrelaza"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
     </div>
 
     <!-- ====== TAB 2: CARACTERÍSTICAS LABORALES ====== -->
@@ -582,7 +593,7 @@
         <div class="chart-card"><h3>Antigüedad en el cargo</h3><canvas id="chartAntiguedadCargo" height="300"></canvas></div>
       </div>
 
-      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
+      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> <a class="instagram-link tiktok-link" href="https://www.tiktok.com/@entrelazapsicosocial" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en TikTok" title="TikTok de Entrelaza"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
     </div>
 
     <!-- ====== TAB 3: INTRALABORAL FORMA A ====== -->
@@ -596,6 +607,7 @@
         <div class="sbc-header"><div><h3>Resultado Intralaboral — Forma A</h3><p class="sbc-label">Puntaje total: <strong id="scoreFormaA">38.00</strong> · <span id="labelFormaA">Riesgo alto</span></p></div><div id="semaforoTabA" class="semaforo-lights"></div></div>
       </div>
 <div class="results-pair-grid" id="formaATableWrap">
+        <div class="chart-card"><h3>Distribución de niveles de riesgo Forma A</h3><canvas id="chartIntraA" height="230"></canvas></div>
         <div class="summary-table-container" style="margin-bottom:0;">
           <h3>Puntajes Ponderados por Dominio — Forma A</h3>
           <table class="risk-table">
@@ -608,7 +620,7 @@
               <tr style="font-weight:700;background:#f8fafc;"><td>TOTAL FORMA A</td><td>38.00</td><td><span class="badge-risk badge-alto">Riesgo alto</span></td></tr>
             </tbody>
           </table>
-        </div><div class="chart-card"><h3>Distribución de niveles de riesgo Forma A</h3><canvas id="chartIntraA" height="230"></canvas></div></div>
+        </div></div>
 <div id="formaACharts">
         <section class="chart-section"><h3 class="chart-section-title">Dominios</h3><div class="charts-grid"><div class="chart-card full-width"><h3>Distribución por dominio — Forma A</h3><canvas id="chartDominiosA" height="260"></canvas></div></div></section>
         <section class="chart-section"><h3 class="chart-section-title">Dimensiones</h3><div class="charts-grid dimensions-grid">
@@ -619,7 +631,7 @@
         </div></section>
       </div>
 
-      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
+      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> <a class="instagram-link tiktok-link" href="https://www.tiktok.com/@entrelazapsicosocial" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en TikTok" title="TikTok de Entrelaza"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
     </div>
 
     <!-- ====== TAB 4: INTRALABORAL FORMA B ====== -->
@@ -637,7 +649,7 @@
         <div class="chart-card"><h3>Demandas del trabajo</h3><canvas id="chartDimBDemandasB" height="320"></canvas></div>
         <div class="chart-card"><h3>Recompensas</h3><canvas id="chartDimBRecompensasB" height="250"></canvas></div>
       </div></section>
-      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
+      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> <a class="instagram-link tiktok-link" href="https://www.tiktok.com/@entrelazapsicosocial" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en TikTok" title="TikTok de Entrelaza"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
     </div>
 
     <!-- ====== TAB 5: RIESGO EXTRALABORAL ====== -->
@@ -649,7 +661,7 @@
         <div class="summary-table-container"><h3>Puntajes ponderados por dominio</h3><table class="risk-table"><thead><tr><th>DOMINIO</th><th>PUNTAJE</th><th>NIVEL DE RIESGO</th></tr></thead><tbody id="extraTableBody"></tbody></table></div>
       </div>
       <section class="chart-section"><h3 class="chart-section-title">Dimensiones Extralaborales</h3><div class="charts-grid"><div class="chart-card full-width"><h3>Distribución por dimensión — Riesgo Extralaboral</h3><canvas id="chartExtraDim" height="300"></canvas></div></div></section>
-      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
+      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> <a class="instagram-link tiktok-link" href="https://www.tiktok.com/@entrelazapsicosocial" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en TikTok" title="TikTok de Entrelaza"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
     </div>
 
     <!-- ====== TAB 6: RIESGO ESTRÉS ====== -->
@@ -659,7 +671,7 @@
       <div class="extra-insight-card stress-cases-card"><div class="eic-label">Casos Blanco (riesgo alto + muy alto)</div><div class="eic-val" id="stressCasesCount">12</div><div class="eic-sub">Personas que requieren seguimiento prioritario</div></div>
       <div class="summary-table-container"><h3>Distribución del Riesgo Estrés</h3><table class="risk-table"><thead><tr><th>NIVEL DE RIESGO</th><th>% DE PERSONAS</th></tr></thead><tbody id="stressTableBody"></tbody></table></div>
       <div class="charts-grid"><div class="chart-card full-width"><h3>Riesgo Estrés — distribución porcentual</h3><canvas id="chartEstresDetail" height="280"></canvas></div></div>
-      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
+      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> <a class="instagram-link tiktok-link" href="https://www.tiktok.com/@entrelazapsicosocial" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en TikTok" title="TikTok de Entrelaza"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
     </div>
 <!-- ====== TAB 7: RECOMENDACIONES ====== -->
     <div class="tab-content" id="tab-7"><div class="section-header"><h2>Recomendaciones de Intervención</h2><p>Acciones recomendadas para cada razón social, según los resultados de la evaluación</p></div>
@@ -702,8 +714,8 @@
         </div>
 
         <div class="gantt-actions">
-          <button class="btn btn-primary" onclick="exportGanttCSV()">
-            <i class="fa-solid fa-file-excel"></i> Exportar Excel (CSV)
+          <button type="button" class="btn btn-primary" onclick="exportGanttXLSX()">
+            <i class="fa-solid fa-file-excel"></i> Exportar Excel (.xlsx)
           </button>
           <button class="btn btn-pdf" onclick="printGantt()">
             <i class="fa-solid fa-file-pdf"></i> Imprimir / PDF
@@ -711,7 +723,7 @@
         </div>
       </div>
 
-      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
+      <footer class="dashboard-footer"><p>Elaborado por <strong>Entrelaza S.A.S.</strong> · NIT 902109771 <a class="instagram-link" href="https://www.instagram.com/entrelazapsicosocial/" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en Instagram" title="Instagram de Entrelaza"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a> <a class="instagram-link tiktok-link" href="https://www.tiktok.com/@entrelazapsicosocial" target="_blank" rel="noopener noreferrer" aria-label="Entrelaza en TikTok" title="TikTok de Entrelaza"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a> · <a class="footer-email" href="mailto:entrelazapsicosocial@gmail.com">entrelazapsicosocial@gmail.com</a></p></footer>
     </div>
 
   </main>
@@ -956,8 +968,16 @@ function isPercentageChart(chart){
   return ['chartEstresResumen','chartIntraA','chartIntraB','chartExtraTotal','chartExtraDim','chartEstresDetail'].includes(id) || id.startsWith('chartDominios') || id.startsWith('chartDim');
 }
 function formatPercentage(value){ const n=Number(value).toFixed(2).replace(/\.?0+$/,''); return n+'%'; }
+const pointLegendChartIds=new Set(['chartGenero','chartEstadoCivil','chartEstrato','chartVivienda','chartCargos','chartSalario','chartContrato','chartIntraA','chartIntraB','chartExtraTotal','chartEstresDetail','chartEstresResumen']);
+function generatePointLegend(chart){
+  const colors=chart.data.datasets[0]?.backgroundColor||[];
+  return chart.data.labels.map((label,index)=>{
+    const color=Array.isArray(colors)?colors[index]:colors;
+    return {text:Array.isArray(label)?label.join(' '):String(label??''),fillStyle:color||'#94a3b8',strokeStyle:color||'#94a3b8',lineWidth:0,index,hidden:!chart.getDataVisibility(index)};
+  });
+}
 const commonPlugins = {
-  legend:{position:'bottom',labels:{font:{size:11},padding:14}},
+  legend:{position:'bottom',labels:{font:{size:11},padding:14,generateLabels(chart){return pointLegendChartIds.has(chart.canvas?.id)&&chart.data.datasets.length===1?generatePointLegend(chart):Chart.defaults.plugins.legend.labels.generateLabels(chart);}},onClick(event,item,legend){if(pointLegendChartIds.has(legend.chart.canvas?.id)){legend.chart.toggleDataVisibility(item.index);legend.chart.update();return;}Chart.defaults.plugins.legend.onClick.call(this,event,item,legend);}},
   tooltip:{mode:'nearest',intersect:false,callbacks:{
     title:function(items){const c=items&&items[0];return c&&c.chart.data.labels[c.dataIndex]?c.chart.data.labels[c.dataIndex]:'';},
     label:function(ctx){
@@ -1024,7 +1044,7 @@ function initCharts() {
   // Edad
   ci.edad = new Chart(document.getElementById('chartEdad'),{type:'bar',data:{
     labels:['18–35 años','36–44 años','45–59 años','Más de 60 años','Otro'],
-    datasets:[{label:'Trabajadores',data:[13,3,4,1,0],backgroundColor:['#1a6b35','#22883f','#27ae60','#6fcf97']}]
+    datasets:[{label:'Trabajadores',data:[13,3,4,1,0],backgroundColor:'#1a6b35'}]
   },options:{plugins:commonPlugins,scales:{x:{stacked:false},y:{beginAtZero:true}}}});
 
   // Estado civil
@@ -1071,17 +1091,17 @@ function initCharts() {
 
   ci.antiguedadEmpresa = new Chart(document.getElementById('chartAntiguedadEmpresa'),{type:'bar',data:{
     labels:['Menos de 1 año','Entre 1 y 2 años','Entre 3 y 5 años','Entre 6 y 7 años','Entre 8 y 9 años','Más de 10 años'],
-    datasets:[{label:'Personas',data:[4,8,3,0,1,5],backgroundColor:'#76933C'}]
+    datasets:[{label:'Trabajadores',data:[4,8,3,0,1,5],backgroundColor:'#76933C'}]
   },options:{indexAxis:'y',scales:{x:{beginAtZero:true,ticks:{precision:0}}},plugins:commonPlugins}});
   ci.antiguedadCargo = new Chart(document.getElementById('chartAntiguedadCargo'),{type:'bar',data:{
     labels:['Menos de 1 año','Entre 1 y 2 años','Entre 3 y 5 años','Entre 6 y 7 años','Entre 8 y 9 años','Más de 10 años'],
-    datasets:[{label:'Personas',data:[6,6,5,0,1,3],backgroundColor:'#76933C'}]
+    datasets:[{label:'Trabajadores',data:[6,6,5,0,1,3],backgroundColor:'#76933C'}]
   },options:{indexAxis:'y',scales:{x:{beginAtZero:true,ticks:{precision:0}}},plugins:commonPlugins}});
   // IntraA total
-  ci.iA = new Chart(document.getElementById('chartIntraA'),{type:'doughnut',data:{
+  ci.iA = new Chart(document.getElementById('chartIntraA'),{type:'bar',data:{
     labels:['Riesgo muy alto','Riesgo alto','Riesgo medio','Riesgo bajo','Sin riesgo o despreciable'],
     datasets:[{data:[44,33,0,11,11],backgroundColor:[riskColors.muyAlto,riskColors.alto,riskColors.medio,riskColors.bajo,riskColors.despreciable]}]
-  },options:{plugins:commonPlugins}});
+  },options:{indexAxis:'x',scales:{x:{ticks:{autoSkip:false,maxRotation:25,minRotation:0}},y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}}},plugins:commonPlugins}});
 
   // Dominios A — VERTICAL stacked
   ci.domA = new Chart(document.getElementById('chartDominiosA'),{type:'bar',data:{
@@ -1246,7 +1266,7 @@ function renderGantt(){
   const startM=parseInt(document.getElementById('ganttStartMonth').value,10),year=parseInt(document.getElementById('ganttYear').value,10);
   const planAbs=year*12+startM,months=Array.from({length:12},(_,i)=>{const abs=startM+i;return MONTHS_ES[abs%12]+' '+(year+Math.floor(abs/12));});
   const head=document.getElementById('ganttHead'),body=document.getElementById('ganttBody');
-  head.innerHTML='<tr><th class="act-col">Actividad</th><th class="area-col">Área responsable</th><th class="date-col">Inicio</th><th class="date-col">Fin</th><th class="actions-col">Acciones</th>'+months.map(m=>'<th class="gantt-month-col">'+m+'</th>').join('')+'</tr>';
+  head.innerHTML='<tr><th class="act-col">Actividad</th><th class="area-col">Área responsable</th><th class="date-col">Inicio</th><th class="date-col">Fin</th><th class="actions-col">Acciones</th>'+months.map(m=>{const parts=m.split(' ');return '<th class="gantt-month-col"><span>'+parts[0]+'</span><span class="gantt-month-year">'+parts[1]+'</span></th>';}).join('')+'</tr>';
   body.innerHTML=GANTT_ACTIVITIES.map((act,idx)=>{
     const sd=isoToDate(act.start),ed=isoToDate(act.end),startAbs=sd.getFullYear()*12+sd.getMonth(),endAbs=ed.getFullYear()*12+ed.getMonth();
     const rawStart=startAbs-planAbs,rawEnd=endAbs-planAbs,from=Math.max(0,rawStart),to=Math.min(11,rawEnd);
@@ -1263,12 +1283,16 @@ function updateGanttText(idx,field,value){GANTT_ACTIVITIES[idx][field]=String(va
 function updateGanttDate(idx,field,value){if(!value)return;GANTT_ACTIVITIES[idx][field]=value;if(GANTT_ACTIVITIES[idx].start>GANTT_ACTIVITIES[idx].end){if(field==='start')GANTT_ACTIVITIES[idx].end=value;else GANTT_ACTIVITIES[idx].start=value;}renderGantt();}
 function addGanttActivity(){const year=parseInt(document.getElementById('ganttYear').value,10),month=parseInt(document.getElementById('ganttStartMonth').value,10),date=dateToIso(new Date(year,month,1));GANTT_ACTIVITIES.push({name:'Nueva actividad',cat:'Área responsable',start:date,end:date});renderGantt();}
 function removeGanttActivity(idx){GANTT_ACTIVITIES.splice(idx,1);renderGantt();}
-function exportGanttCSV(){
-  let csv='Actividad,Área responsable,Inicio,Fin\n';
-  const quote=value=>'"'+String(value).replace(/"/g,'""')+'"';
-  GANTT_ACTIVITIES.forEach(act=>{csv+=[act.name,act.cat,dateToEs(act.start),dateToEs(act.end)].map(quote).join(',')+'\n';});
-  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');
-  a.href=url;a.download='Cronograma_Intervencion_Riesgo_Psicosocial.csv';a.click();URL.revokeObjectURL(url);
+function exportGanttXLSX(){
+  if(!window.XLSX){alert('No se pudo cargar el generador del archivo Excel. Verifica tu conexión e inténtalo de nuevo.');return;}
+  try{
+    const rows=[['Actividad','Área responsable','Inicio','Fin'],...GANTT_ACTIVITIES.map(act=>[String(act.name||'').trim(),String(act.cat||'').trim(),dateToEs(act.start),dateToEs(act.end)])];
+    const sheet=XLSX.utils.aoa_to_sheet(rows);
+    sheet['!cols']=[{wch:78},{wch:38},{wch:16},{wch:16}];
+    sheet['!autofilter']={ref:XLSX.utils.encode_range({s:{r:0,c:0},e:{r:Math.max(0,rows.length-1),c:3}})};
+    const workbook=XLSX.utils.book_new();XLSX.utils.book_append_sheet(workbook,sheet,'Cronograma');
+    XLSX.writeFile(workbook,'Cronograma_Intervencion_Riesgo_Psicosocial.xlsx',{compression:true});
+  }catch(error){console.error('Error al generar el Excel del cronograma:',error);alert('No se pudo generar el archivo Excel. Vuelve a intentarlo.');}
 }
 </script>
 </body>
